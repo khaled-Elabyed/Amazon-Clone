@@ -1,0 +1,38 @@
+✅ الترتيب الصحيح الفعلي (مع التوضيح):
+✅ 1. handleProductClick(product)
+أول حاجة بتحصل لما المستخدم يضغط على المنتج.
+بتتنفذ مباشرة عن طريق onClick.
+
+✅ 2. setSelectedProduct(product)
+دي بتتنفذ جوا handleProductClick.
+يعني فعليًا هي جزء من الخطوة 1، بس بتاخد وقت بسيط لأنها بتغير الـ state.
+
+✅ 3. التنقل إلى /products/${product.id}
+بعد ما onClick يخلص، React Router بينفذ التنقل بناءً على to=....
+يعني الانتقال للراوت بيحصل بعد ما الـ click يتنفذ كله.
+
+بس خد بالك: لو التنقل حصل بسرعة جدًا، ممكن React يروح للصفحة قبل ما setSelectedProduct يخلص.
+
+✅ 4. تنفيذ الكود داخل ProductDetails.jsx
+أول ما الراوت يتغير، React يحمّل كومبوننت ProductDetails.
+وفيها بيتعمل:
+
+js
+Copy
+Edit
+if (!selectedProduct) {
+  return <div>Loading...</div>;
+}
+يعني بيتشيك هل الـ selectedProduct موجود ولا لأ، علشان يقرر يعرض التفاصيل أو لا.
+
+✅ إذن الترتيب الأدق هو:
+handleProductClick(product)
+
+(جواه) setSelectedProduct(product)
+
+التنقل إلى /products/${product.id}
+
+ProductDetails.jsx يقرأ selectedProduct ويشيك عليه (if)
+
+يعرض التفاصيل لو المنتج موجود
+
